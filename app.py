@@ -33,6 +33,8 @@ def check_guess(guess, secret):
     if guess == secret:
         return "Win", "🎉 Correct!"
 
+# ERROR: 
+    # FIXME: Bug 1 — messages are swapped; "Too High" should say "Go LOWER", not "Go HIGHER"
     try:
         if guess > secret:
             return "Too High", "📈 Go HIGHER!"
@@ -155,6 +157,7 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
+        # FIXME: Bug 3 — converting secret to a string on even attempts causes wrong lexicographic comparisons
         if st.session_state.attempts % 2 == 0:
             secret = str(st.session_state.secret)
         else:
