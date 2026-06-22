@@ -40,13 +40,13 @@ Claude initially flagged the attempt counter as a separate bug (starting at 1 in
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-I used two checks: first I ran `pytest` to confirm the targeted test cases passed, then I ran the live app with `python3 -m streamlit run app.py` and manually guessed numbers above and below the secret to verify the hints matched what I expected.
+  - I used two checks: first I ran `pytest` to confirm the targeted test cases passed, then I ran the live app with `python3 -m streamlit run app.py` and manually guessed numbers above and below the secret to verify the hints matched what I expected.
 
 - Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
-I ran `pytest tests/test_game_logic.py -v` after fixing Bug 1. The test `test_too_high_message_says_go_lower` called `check_guess(90, 16)` and asserted `"LOWER"` was in the returned message. It passed, confirming the swap was corrected. I also ran `test_no_string_comparison_large_vs_small` which called `check_guess(9, 10)` — this would have returned `"Too High"` under the old string-comparison bug, but now correctly returns `"Too Low"`.
+  - I ran `pytest tests/test_game_logic.py -v` after fixing Bug 1. The test `test_too_high_message_says_go_lower` called `check_guess(90, 16)` and asserted `"LOWER"` was in the returned message. It passed, confirming the swap was corrected. I also ran `test_no_string_comparison_large_vs_small` which called `check_guess(9, 10)`. This would have returned `"Too High"` under the old string-comparison bug, but now correctly returns `"Too Low"`.
 
 - Did AI help you design or understand any tests? How?
-Yes — Claude pointed out that the existing starter tests would fail after the refactor because they compared the full return value (`result == "Win"`) instead of unpacking the tuple. It updated the tests to use `outcome, message = check_guess(...)` and added two new tests per bug: one for the outcome label and one for the message direction, which gave me clearer signal about exactly what was broken.
+  - Yes. Claude pointed out that the existing starter tests would fail after the refactor because they compared the full return value (`result == "Win"`) instead of unpacking the tuple. It updated the tests to use `outcome, message = check_guess(...)` and added two new tests per bug: one for the outcome label and one for the message direction, which gave me clearer signal about exactly what was broken.
 
 ---
 
@@ -65,7 +65,7 @@ Every time a user clicks a button or types something in a Streamlit app, the ent
 Writing a pytest case immediately after fixing a bug — not after the whole project is done. It forced me to think precisely about what "fixed" actually means and gave me a safety net if I accidentally broke something while working on a different part of the code.
 
 - What is one thing you would do differently next time you work with AI on a coding task?
-I would give the AI a smaller, more focused scope per prompt. When I asked Claude to identify all bugs at once, it surfaced several at the same time and I had to manually decide which were real priorities. A tighter prompt like "find bugs only in the check_guess function" would have kept the conversation more actionable.
+  - I would give the AI a smaller, more focused scope per prompt. When I asked Claude to identify all bugs at once, it surfaced several at the same time and I had to manually decide which were real priorities. A tighter prompt like "find bugs only in the check_guess function" would have kept the conversation more actionable.
 
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
-I used to assume AI-generated code was either fully correct or obviously broken. This project showed me it can be subtly wrong in ways that look intentional — like swapping messages instead of logic — which means you have to test it just as carefully as code you wrote yourself.
+  - I used to assume AI-generated code was either fully correct or obviously broken. This project showed me it can be subtly wrong in ways that look intentional — like swapping messages instead of logic — which means you have to test it just as carefully as code you wrote yourself.
