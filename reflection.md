@@ -27,18 +27,26 @@ Document at least 3 bugs you found. Add rows as needed.
 ## 2. How did you use AI as a teammate?
 
 - Which AI tools did you use on this project (for example: ChatGPT, Gemini, Copilot)?
-I utilized Claude Code for this project
+I utilized Claude Code for this project.
+
 - Give one example of an AI suggestion that was correct (including what the AI suggested and how you verified the result).
+Claude identified that the hint messages in `check_guess` were swapped — "Too High" was paired with "Go HIGHER!" when it should say "Go LOWER!". It suggested moving the function to `logic_utils.py` and correcting the messages there. I verified this by running the game and guessing a number I knew was above the secret; the hint now correctly told me to go lower.
+
 - Give one example of an AI suggestion that was incorrect or misleading (including what the AI suggested and how you verified the result).
+Claude initially flagged the attempt counter as a separate bug (starting at 1 instead of 0), suggesting it caused the game to end one guess early. After testing manually, I found this was a display issue rather than a logic-breaking bug and chose not to fix it in this phase, since the grader confirmed it was lower priority. The AI was technically right about the off-by-one but overstated its impact.
 
 ---
 
 ## 3. Debugging and testing your fixes
 
 - How did you decide whether a bug was really fixed?
-- Describe at least one test you ran (manual or using pytest)  
-  and what it showed you about your code.
+I used two checks: first I ran `pytest` to confirm the targeted test cases passed, then I ran the live app with `python3 -m streamlit run app.py` and manually guessed numbers above and below the secret to verify the hints matched what I expected.
+
+- Describe at least one test you ran (manual or using pytest) and what it showed you about your code.
+I ran `pytest tests/test_game_logic.py -v` after fixing Bug 1. The test `test_too_high_message_says_go_lower` called `check_guess(90, 16)` and asserted `"LOWER"` was in the returned message. It passed, confirming the swap was corrected. I also ran `test_no_string_comparison_large_vs_small` which called `check_guess(9, 10)` — this would have returned `"Too High"` under the old string-comparison bug, but now correctly returns `"Too Low"`.
+
 - Did AI help you design or understand any tests? How?
+Yes — Claude pointed out that the existing starter tests would fail after the refactor because they compared the full return value (`result == "Win"`) instead of unpacking the tuple. It updated the tests to use `outcome, message = check_guess(...)` and added two new tests per bug: one for the outcome label and one for the message direction, which gave me clearer signal about exactly what was broken.
 
 ---
 
