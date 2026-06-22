@@ -53,6 +53,7 @@ Yes — Claude pointed out that the existing starter tests would fail after the 
 ## 4. What did you learn about Streamlit and state?
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+Every time a user clicks a button or types something in a Streamlit app, the entire Python script runs again from top to bottom — that's called a "rerun." This means any regular variable you set gets wiped out on the next rerun. Session state is Streamlit's fix for this: it's a dictionary (`st.session_state`) that persists across reruns, so things like the secret number, attempt count, and score survive each interaction. Think of it like a whiteboard that stays up between rounds, while everything else on the table gets cleared.
 
 ---
 
@@ -60,5 +61,10 @@ Yes — Claude pointed out that the existing starter tests would fail after the 
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
   - This could be a testing habit, a prompting strategy, or a way you used Git.
+Writing a pytest case immediately after fixing a bug — not after the whole project is done. It forced me to think precisely about what "fixed" actually means and gave me a safety net if I accidentally broke something while working on a different part of the code.
+
 - What is one thing you would do differently next time you work with AI on a coding task?
+I would give the AI a smaller, more focused scope per prompt. When I asked Claude to identify all bugs at once, it surfaced several at the same time and I had to manually decide which were real priorities. A tighter prompt like "find bugs only in the check_guess function" would have kept the conversation more actionable.
+
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+I used to assume AI-generated code was either fully correct or obviously broken. This project showed me it can be subtly wrong in ways that look intentional — like swapping messages instead of logic — which means you have to test it just as carefully as code you wrote yourself.
