@@ -33,7 +33,7 @@ A number guessing game built with Streamlit where the player tries to guess a se
 2. **Even-attempt string comparison** — On every even-numbered attempt, the secret number was secretly cast to a string. This caused lexicographic comparisons (e.g. `"9" > "10"` is `True`) to produce wrong hints on alternating guesses.
 
 **Fixes Applied:**
-- Moved `check_guess` into `logic_utils.py` and corrected the hint messages so "Too High" maps to "Go LOWER!" and "Too Low" maps to "Go HIGHER!".
+- Moved `check_guess` into `logic_utils.py` and corrected the hint messages so that "Too High" maps to "Go LOWER!" and "Too Low" maps to "Go HIGHER!".
 - Removed the even-attempt `str()` conversion in `app.py` so the secret is always compared as an integer.
 
 ## 📸 Demo Walkthrough

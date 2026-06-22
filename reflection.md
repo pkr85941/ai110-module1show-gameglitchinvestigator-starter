@@ -53,7 +53,8 @@ Yes — Claude pointed out that the existing starter tests would fail after the 
 ## 4. What did you learn about Streamlit and state?
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
-Every time a user clicks a button or types something in a Streamlit app, the entire Python script runs again from top to bottom — that's called a "rerun." This means any regular variable you set gets wiped out on the next rerun. Session state is Streamlit's fix for this: it's a dictionary (`st.session_state`) that persists across reruns, so things like the secret number, attempt count, and score survive each interaction. Think of it like a whiteboard that stays up between rounds, while everything else on the table gets cleared.
+
+Every time a user clicks a button or types something in a Streamlit app, the entire Python script runs again from top to bottom, that's called a "rerun." This means any regular variable you set gets wiped out on the next rerun. Session state is Streamlit's fix for this: it's a dictionary (`st.session_state`) that persists across reruns, so things like the secret number, attempt count, and score survive each interaction. Think of it like a whiteboard that stays up between rounds, while everything else on the table gets cleared.
 
 ---
 
